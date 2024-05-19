@@ -6,12 +6,17 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 from modelos.control_cocina import ModeloCocina
 from modelos.control_huesped import ModeloHuesped
+from modelos.control_usuario import ModeloUsuario
+from modelos.control_TipoUsuario import ModeloTipoUsuario
+import bcrypt
 
 Ui_MainWindow, QMainWindow = loadUiType('view/interfaz.ui')
 
 
 class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
     def __init__(self, user, main_login) -> None:
+        self.ModeloUsuario = ModeloUsuario()
+        self.ModeloTipoUsuario = ModeloTipoUsuario()
         self.ModeloCocina = ModeloCocina()
         self.ModeloHuesped = ModeloHuesped()
 
@@ -40,3 +45,55 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
                                                                                    self.lnl_entradaH.text(),
                                                                                    self.lnl_salidaH.text(),
                                                                                    self.tablaHuesped))
+
+        # --------------------------------- Botones Usuario ----------------------------------
+
+        self.btn_register_6.clicked.connect(self.registrar)
+        self.btn_register_6.clicked.connect(self.limpiar_labels_register)
+        self.btn_listar_u.clicked.connect(lambda: self.ModeloUsuario.listarUsuario(self.tabla_usuario))
+        self.btn_eliminar_u.clicked.connect(lambda: self.ModeloUsuario.eliminarUsuario(self.tabla_usuario))
+        self.btn_actualizar_u.clicked.connect(lambda: self.ModeloUsuario.actualizarUsuario(self.tabla_usuario))
+        self.btn_tipoUsuario.clicked.connect(self.mostrar_pagina_tipoUsuario)
+        self.btn_usuario.clicked.connect(lambda: self.ModeloUsuario.listarUsuario(self.tabla_usuario))
+
+        # ----------------------------------- Botones Tipo Usuario ----------------------------
+
+        self.btn_volver.clicked.connect(self.mostrar_pagina_usuario)
+        self.btn_listar_Tipo.clicked.connect(lambda: self.ModeloTipoUsuario.listarTipoUsuario(self.tabla_tipo_usuario))
+        self.btn_eliminarTipo.clicked.connect(
+            lambda: self.ModeloTipoUsuario.eliminarTipoUsuario(self.tabla_tipo_usuario))
+        self.btn_actualizarTipo.clicked.connect(
+            lambda: self.ModeloTipoUsuario.actualizarTipoUsuario(self.tabla_tipo_usuario))
+        self.btn_crear_tipo.clicked.connect(
+            lambda: self.ModeloTipoUsuario.CrearTipoUsuario(self.lnx_tipoUsusario.text(),
+                                                            self.tabla_tipo_usuario))
+
+    def registrar(self):
+        nombre = self.lnx_1nombre_2.text()
+        user = self.lnx_usuario_2.text()
+        cargo = self.cb_min_2.currentText()
+        pw = self.lnx_password_3.text()
+        pw_confirm = self.lnx_confirm_password_2.text()
+
+        if pw == pw_confirm:
+            pw = str(pw)
+
+            salt = bcrypt.gensalt()
+
+            # Encripta la contraseña del usuario
+            hashed_password = bcrypt.hashpw(pw.encode('utf-8'), salt)
+            if cargo == "Gerente":
+                self.ModeloUsuario.CrearUsuario(nombre, user, hashed_password, 1, self.tabla_usuario)
+            elif cargo == "Empleado":
+                self.ModeloUsuario.CrearUsuario(nombre, user, hashed_password, 2, self.tabla_usuario)
+            # Insertar la contraseña segura como una cadena de texto en la base de datos
+
+
+        else:
+            print("las contraseñas no coinciden")
+
+    def limpiar_labels_register(self):
+        self.lnx_1nombre_2.clear()
+        self.lnx_confirm_password_2.clear()
+        self.lnx_password_3.clear()
+        self.lnx_usuario_2.clear()
