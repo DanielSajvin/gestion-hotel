@@ -49,3 +49,11 @@ class Usuario():
             sql = "DELETE FROM usuarios WHERE Id = '"+id+"'"
             cursor.execute(sql)
             self.conn.commit()
+
+    def regresarUsuario(self, usuario):
+        with self.conn.cursor() as cursor:
+            sql = "SELECT * FROM usuarios WHERE Usuario = '"+str(usuario)+"'"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+            if result:
+                return result

@@ -52,3 +52,8 @@ class ModeloUsuario():
             if prov:
                 self.modeloUsuario.eliminarUsuario(cod)
         self.listarUsuario(table)
+
+
+    def regresarUsuario(self, usuario):
+        regresar = self.modeloUsuario.regresarUsuario(usuario)
+        return regresar
