@@ -2,6 +2,7 @@ from PyQt5.uic import loadUiType
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSizePolicy, QTabWidget
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 from view.CrearNivel import CrearNivel
@@ -209,23 +210,45 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         for nivel in range(1, numero_de_niveles + 1):
             # Crear una pestaña para el nivel actual
             tab = QWidget()
-            layout = QVBoxLayout()
+            layout = QGridLayout()
 
             # Obtener las habitaciones para el nivel actual
             habitaciones_nivel = habitaciones_por_nivel.get(f"Nivel {nivel}", [])
 
             # Crear botones de habitación para el nivel actual
-            for habitacion in habitaciones_nivel:
+            for i, habitacion in enumerate(habitaciones_nivel):
                 estado = habitacion[2]
-                # Verificar si la habitación está asociada al cliente y actualizar el estado
-
                 button = QPushButton(f"Habitación {habitacion[0]}\nTipo: {habitacion[1]}\nEstado: {estado}")
                 if estado == "Ocupado":
                     button.setEnabled(False)
                 else:
                     # Conecta la señal clicked del botón a la función pg_CrearHospedamiento con el número de habitación correspondiente
                     button.clicked.connect(lambda _, num=habitacion[0]: self.pg_CrearHospedamiento(num))
-                layout.addWidget(button)
+
+                # Establecer posición del botón en el grid layout
+                row = i // 3
+                col = i % 3
+                layout.addWidget(button, row, col)
+
+            # Aplicar estilo CSS a los botones
+            style = """
+QPushButton{
+    background:rgba(2,97,98,255);
+    /*border: 1px solid #2361a0; /* Cambiar el color del borde a azul oscuro */
+    border-radius: 10px;
+    font: 75 9pt "MS Shell Dlg 2t";
+/* Cambiar el color de fondo a azul oscuro */
+    color: white;
+}
+
+QPushButton:hover{
+
+background-color: qlineargradient(spread:pad, x1:0, y1:0.505682, x2:1, y2:0.477, stop:0 rgba(14, 52, 83, 1), stop:1 rgba(14, 52, 83, 1));
+color: rgb(255, 255, 255);
+
+}
+            """
+            tab.setStyleSheet(style)
 
             # Establecer el diseño en la pestaña y agregarla al QTabWidget
             tab.setLayout(layout)
