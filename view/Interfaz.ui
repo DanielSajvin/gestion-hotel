@@ -511,43 +511,30 @@ color: rgba(106,105,103,255);
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="btn_verUsuario">
              <property name="geometry">
               <rect>
-               <x>820</x>
+               <x>970</x>
                <y>10</y>
-               <width>181</width>
+               <width>71</width>
                <height>51</height>
               </rect>
              </property>
-             <property name="text">
-              <string>Usuario</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="agre_piso">
-             <property name="geometry">
-              <rect>
-               <x>170</x>
-               <y>10</y>
-               <width>131</width>
-               <height>51</height>
-              </rect>
+             <property name="styleSheet">
+              <string notr="true">background-color: rgba(50,66,73,255);</string>
              </property>
              <property name="text">
-              <string>Agregar Piso</string>
+              <string/>
              </property>
-            </widget>
-            <widget class="QPushButton" name="btn_actualizarH_2">
-             <property name="geometry">
-              <rect>
-               <x>350</x>
-               <y>10</y>
-               <width>121</width>
-               <height>51</height>
-              </rect>
+             <property name="icon">
+              <iconset>
+               <normaloff>../imagenes/klipartz.com.png</normaloff>../imagenes/klipartz.com.png</iconset>
              </property>
-             <property name="text">
-              <string>Actualizar habitacion</string>
+             <property name="iconSize">
+              <size>
+               <width>50</width>
+               <height>50</height>
+              </size>
              </property>
             </widget>
            </widget>
@@ -1538,12 +1525,66 @@ QTableWidget::item {
                         <height>241</height>
                        </rect>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true">QHeaderView {
+    background-color: white;
+    border: none;
+    font: 75 12pt &quot;Archivo&quot;;
+}
+
+QHeaderView:hover {
+    background-color: white;
+}
+
+QHeaderView:section {
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    border-top: none;
+    padding: 2px;
+    font-size: 11pt;
+    color: black;
+text-align: left;
+}
+
+QTableWidget {
+    background-color: white;
+    border: none;
+    gridline-color: transparent;
+    font-size: 11pt;
+    color: black;
+
+}
+
+QTableWidget QTableCornerButton::section {
+    background-color: white;
+    border: none;
+
+}
+
+QTableWidget::item {
+    border: none;
+    border-bottom: 1px solid lightgray;
+    alignment: AlignHCenter; /* Centra el texto horizontalmente */
+	color:black /* cambiar el color letra al seleccionar*/
+
+}</string>
+                      </property>
                       <attribute name="horizontalHeaderDefaultSectionSize">
                        <number>135</number>
                       </attribute>
                       <column>
                        <property name="text">
                         <string>id</string>
+                       </property>
+                      </column>
+                      <column>
+                       <property name="text">
+                        <string>extrasid</string>
+                       </property>
+                      </column>
+                      <column>
+                       <property name="text">
+                        <string>favturaid</string>
                        </property>
                       </column>
                       <column>
@@ -1585,6 +1626,50 @@ QTableWidget::item {
                         <width>1011</width>
                         <height>241</height>
                        </rect>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QHeaderView {
+    background-color: white;
+    border: none;
+    font: 75 12pt &quot;Archivo&quot;;
+}
+
+QHeaderView:hover {
+    background-color: white;
+}
+
+QHeaderView:section {
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+    border-top: none;
+    padding: 2px;
+    font-size: 11pt;
+    color: black;
+text-align: left;
+}
+
+QTableWidget {
+    background-color: white;
+    border: none;
+    gridline-color: transparent;
+    font-size: 11pt;
+    color: black;
+
+}
+
+QTableWidget QTableCornerButton::section {
+    background-color: white;
+    border: none;
+
+}
+
+QTableWidget::item {
+    border: none;
+    border-bottom: 1px solid lightgray;
+    alignment: AlignHCenter; /* Centra el texto horizontalmente */
+	color:black /* cambiar el color letra al seleccionar*/
+
+}</string>
                       </property>
                       <attribute name="horizontalHeaderDefaultSectionSize">
                        <number>135</number>
@@ -1843,11 +1928,12 @@ QTableWidget::item {
                    </size>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">border: 2px solid  rgba(46, 82, 101, 200);
-border-radius: 8px;
-color: rgb(0,126,249);
-background-color:rgb(24, 30, 50);
-font: 75 12pt&quot;Times New Roman&quot;;</string>
+                   <string notr="true">    background:rgba(2,97,98,255);
+    /*border: 1px solid #2361a0; /* Cambiar el color del borde a azul oscuro */
+    border-radius: 10px;
+    font: 75 9pt &quot;MS Shell Dlg 2t&quot;;
+/* Cambiar el color de fondo a azul oscuro */
+    color: white;</string>
                   </property>
                   <item>
                    <property name="text">
@@ -2825,10 +2911,7 @@ QTableWidget::item {
     alignment: AlignHCenter; /* Centra el texto horizontalmente */
 	color:black /* cambiar el color letra al seleccionar*/
 
-}
-
-
-</string>
+}</string>
                     </property>
                     <property name="textElideMode">
                      <enum>Qt::ElideMiddle</enum>

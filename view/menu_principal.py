@@ -2,7 +2,11 @@ from PyQt5.uic import loadUiType
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QSizePolicy, QTabWidget
+<<<<<<< HEAD
 from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton
+=======
+from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
+>>>>>>> angel_cotoc
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 from view.CrearNivel import CrearNivel
@@ -64,7 +68,10 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         self.btn_habitacion.clicked.connect(lambda: self.actualizar_paneles_y_botones(self.tablaNivel))
         self.actualizar_paneles_y_botonesParaSalida(self.tablaNivel)
         self.btn_salida.clicked.connect(lambda: self.actualizar_paneles_y_botonesParaSalida(self.tablaNivel))
+<<<<<<< HEAD
         # self.btn_actualizarH_2.clicked.connect(self.actualizarBotonesHabitacion)
+=======
+>>>>>>> angel_cotoc
 
         # -------------------------- Conectar Botones con Pagina  ---------------------------
         self.btn_habitacion.clicked.connect(self.mostrar_pagina_recepcion)
@@ -120,9 +127,12 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
                                                                                    self.lnl_salidaH.text(),
                                                                                    self.tablaHuesped))
 
+<<<<<<< HEAD
         # -------------------------------------------------- Botones Habbitacion --------------------
         # self.agre_piso.clicked.connect(self.agregar_planta)
 
+=======
+>>>>>>> angel_cotoc
         # --------------------------------------------- Botones de Nivel -----------------------------
         self.btn_crearNiv.clicked.connect(self.pg_CrearNiv)
         self.btn_crearNiv.clicked.connect(self.agregar_planta)
@@ -135,6 +145,10 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
 
         # ----------------------------------------- Botones de Registro -----------------------------
         self.btn_registro.clicked.connect(lambda: self.ModeloRegistro.listarFactura(self.tab_ReporteFacturas))
+        self.btn_registro.clicked.connect(lambda: self.ModeloRegistro.listardetalleFactura(self.tab_Reporte))
+
+        self.btn_registro.clicked.connect(lambda: self.ModeloRegistro.updateFactura(self.tab_ReporteFacturas))
+        self.btn_registro.clicked.connect(lambda: self.ModeloRegistro.updatedetalleFactura(self.tab_Reporte))
 
     # Dentro del método cambiar_nombres_de_pestanas():
 
@@ -219,15 +233,23 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
             habitaciones_nivel = habitaciones_por_nivel.get(f"Nivel {nivel}", [])
 
             # Crear botones de habitación para el nivel actual
+<<<<<<< HEAD
             for i, habitacion in enumerate(habitaciones_nivel):
                 estado = habitacion[2]
+=======
+            row = 0
+            col = 0
+            for i, habitacion in enumerate(habitaciones_nivel):
+                estado = habitacion[2]
+
+>>>>>>> angel_cotoc
                 button = QPushButton(f"Habitación {habitacion[0]}\nTipo: {habitacion[1]}\nEstado: {estado}")
                 if estado == "Ocupado":
                     button.setEnabled(False)
                 else:
-                    # Conecta la señal clicked del botón a la función pg_CrearHospedamiento con el número de habitación correspondiente
                     button.clicked.connect(lambda _, num=habitacion[0]: self.pg_CrearHospedamiento(num))
 
+<<<<<<< HEAD
                 # Establecer posición del botón en el grid layout
                 row = i // 3
                 col = i % 3
@@ -252,6 +274,16 @@ color: rgb(255, 255, 255);
 }
             """
             tab.setStyleSheet(style)
+=======
+                # Agregar el botón al layout en la posición (row, col)
+                layout.addWidget(button, row, col)
+
+                # Actualizar la posición de la columna, y si col llega a 2, resetear col y aumentar row
+                col += 1
+                if col > 2:
+                    col = 0
+                    row += 1
+>>>>>>> angel_cotoc
 
             # Establecer el diseño en la pestaña y agregarla al QTabWidget
             tab.setLayout(layout)
@@ -285,28 +317,49 @@ color: rgb(255, 255, 255);
         for nivel in range(1, numero_de_niveles + 1):
             # Crear una pestaña para el nivel actual
             tab = QWidget()
-            layout = QVBoxLayout()
+            layout = QGridLayout()
 
             # Obtener las habitaciones para el nivel actual
             habitaciones_nivel = habitaciones_por_nivel.get(f"Nivel {nivel}", [])
 
             # Crear botones de habitación para el nivel actual
+            row = 0
+            col = 0
             for habitacion in habitaciones_nivel:
                 estado = habitacion[2]
-                # Verificar si la habitación está asociada al cliente y actualizar el estado
 
                 button = QPushButton(f"Habitación {habitacion[0]}\nTipo: {habitacion[1]}\nEstado: {estado}")
 
-                # Conecta la señal clicked del botón a la función pg_CrearHospedamiento con el número de habitación correspondiente
+                # Conecta la señal clicked del botón a la función pg_CrearSalida con el número de habitación correspondiente
                 button.clicked.connect(lambda _, num=habitacion[0]: self.pg_CrearSalida(num))
-                layout.addWidget(button)
+
+                # Aplicar estilo CSS al botón
+                button.setStyleSheet("""
+QPushButton{
+    background:rgba(2,97,98,255);
+    /*border: 1px solid #2361a0; /* Cambiar el color del borde a azul oscuro */
+    border-radius: 10px;
+    font: 75 12pt "Archivo";
+/* Cambiar el color de fondo a azul oscuro */
+    color: white;
+}
+                """)
+
+                # Agregar el botón al layout en la posición (row, col)
+                layout.addWidget(button, row, col)
+
+                # Actualizar la posición de la columna, y si col llega a 2, resetear col y aumentar row
+                col += 1
+                if col > 2:
+                    col = 0
+                    row += 1
 
             # Establecer el diseño en la pestaña y agregarla al QTabWidget
             tab.setLayout(layout)
             self.tab_salida.addTab(tab, f"Nivel {nivel}")
 
         # Actualizar la interfaz gráfica
-        self.tab_recepcion.setCurrentIndex(0)
+        self.tab_salida.setCurrentIndex(0)
 
     def obtener_numero_de_niveles_desde_bd(self, tabla):
         self.ModeloNivel.updateNivel(tabla)
@@ -314,7 +367,8 @@ color: rgb(255, 255, 255);
         return numero_niveles
 
     def pg_CrearSalida(self, num):
-        self.crearHabitacionWindow = CrearSalida(self.tab_Reporte, self.tab_ReporteFacturas, num, self.id_usuario)
+        self.crearHabitacionWindow = CrearSalida(self.tab_Reporte, self.tab_ReporteFacturas, num, self.id_usuario,
+                                                 self.tablaHabitacion)
         self.crearHabitacionWindow.show()
 
     def pg_CrearHospedamiento(self, numero_habitacion):
