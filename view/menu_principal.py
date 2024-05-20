@@ -64,7 +64,7 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         self.btn_habitacion.clicked.connect(lambda: self.actualizar_paneles_y_botones(self.tablaNivel))
         self.actualizar_paneles_y_botonesParaSalida(self.tablaNivel)
         self.btn_salida.clicked.connect(lambda: self.actualizar_paneles_y_botonesParaSalida(self.tablaNivel))
-        self.btn_actualizarH_2.clicked.connect(self.actualizarBotonesHabitacion)
+        # self.btn_actualizarH_2.clicked.connect(self.actualizarBotonesHabitacion)
 
         # -------------------------- Conectar Botones con Pagina  ---------------------------
         self.btn_habitacion.clicked.connect(self.mostrar_pagina_recepcion)
@@ -121,7 +121,7 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
                                                                                    self.tablaHuesped))
 
         # -------------------------------------------------- Botones Habbitacion --------------------
-        self.agre_piso.clicked.connect(self.agregar_planta)
+        # self.agre_piso.clicked.connect(self.agregar_planta)
 
         # --------------------------------------------- Botones de Nivel -----------------------------
         self.btn_crearNiv.clicked.connect(self.pg_CrearNiv)
