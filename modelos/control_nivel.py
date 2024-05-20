@@ -27,18 +27,22 @@ class ModeloNivel:
 
             # Crear botones de editar y eliminar
             buttonEditar = QPushButton("Editar")
-            buttonEditar.clicked.connect(lambda _, row=row_number: self.subirNivel(tabla, row, row_data[
-                0]))  # Pasar el id de la fila como argumento
+            buttonEditar.clicked.connect(self.make_edit_callback(tabla, row_number, row_data[0]))  # Pasar el id de la fila como argumento
             buttonEditar.setStyleSheet("background-color: rgba(229,170,39,255);"
                                        " color: rgba(255,255,255,255); font: 75 12pt 'Archivo';")
             tabla.setCellWidget(row_number, 3, buttonEditar)  # Ajustar el índice para el botón editar
 
             buttonEliminar = QPushButton("Eliminar")
-            buttonEliminar.clicked.connect(lambda _, row=row_number: self.delete_row(row, tabla, row_data[
-                0]))  # Pasar el id de la fila como argumento
+            buttonEliminar.clicked.connect(self.make_delete_callback(tabla, row_number, row_data[0]))  # Pasar el id de la fila como argumento
             buttonEliminar.setStyleSheet("background-color: rgba(247,67,56,255);"
                                          " color: rgba(255,255,255,255); font: 75 12pt 'Archivo';")
             tabla.setCellWidget(row_number, 4, buttonEliminar)
+
+    def make_edit_callback(self, tabla, row, id):
+        return lambda: self.subirNivel(tabla, row, id)
+
+    def make_delete_callback(self, tabla, row, id):
+        return lambda: self.delete_row(row, tabla, id)
 
     def subirNivel(self, tabla, row, id_nivel):
 

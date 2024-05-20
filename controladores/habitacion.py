@@ -104,8 +104,8 @@ class Habitacion:
 
     def eliminarHabitacion(self, id):
         with self.conn.cursor() as cursor:
-            sql = "DELETE FROM habitaciones WHERE id = '" + id + "'"
-            cursor.execute(sql)
+            sql = "DELETE FROM habitaciones WHERE id = %s"
+            cursor.execute(sql, (id,))
             self.conn.commit()
 
     def obtenertablaHabitacion(self):
@@ -119,6 +119,18 @@ h.NoHabitacion, c.Nombre, c.Precio, h.Detalle, n.Nombre FROM habitaciones h
             result = cursor.fetchall()
             return result
 
+    def obtenerHabitaciones(self, idhabitacion):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM hotel_ad.habitaciones where id  = %s", (idhabitacion,))
+        habitaciones = cursor.fetchall()
+        return habitaciones
+
+    def verificarhabitacionendetalle(self, idhabitacion):
+
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM hotel_ad.detallefactura where habitaciones_id = %s", (idhabitacion,))
+        habitaciones = cursor.fetchall()
+        return habitaciones
     def obtenerTablaNivel(self):
         with self.conn.cursor() as cursor:
             sql = """SELECT * FROM nivelhabitacion"""

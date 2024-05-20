@@ -29,20 +29,50 @@ class ModeloHabitacion():
 
             # Crear botones de editar y eliminar
             buttonEditar = QPushButton("Editar")
-            buttonEditar.clicked.connect(lambda _, row=row_number: self.edit_row(row))  # Pasar el id de la fila como argumento
+            # Pasar el id de la fila como argumento
+            buttonEditar.clicked.connect(lambda _, row=row_number: self.edit_row(row))
+
             buttonEditar.setStyleSheet("background-color: rgba(229,170,39,255);"
                                        " color: rgba(255,255,255,255); font: 75 12pt 'Archivo';")
             tabla.setCellWidget(row_number, 9, buttonEditar)  # Ajustar el índice para el botón editar
 
             buttonEliminar = QPushButton("Eliminar")
-            buttonEliminar.clicked.connect(lambda _, row=row_number:  self.delete_row(row))  # Pasar el id de la fila como argumento
+            # Pasar el id de la fila como argumento usando una función auxiliar
+            buttonEliminar.clicked.connect(self.make_delete_callback(tabla, row_number, row_data[0]))
+
             buttonEliminar.setStyleSheet("background-color: rgba(247,67,56,255);"
                                          " color: rgba(255,255,255,255); font: 75 12pt 'Archivo';")
             tabla.setCellWidget(row_number, 10, buttonEliminar)
 
+    def make_delete_callback(self, tabla, row, id):
+        return lambda: self.delete_row(row, tabla, id)
 
-    def delete_row(self, row):
-        print(f"se elimina el boton: {row}")
+    def delete_row(self, row, tabla, id_habitacion):
+        # Preguntar al usuario si está seguro de eliminar la fila
+        respuesta = QMessageBox.question(None, "Confirmación", "¿Estás seguro de eliminar este Nivel?",
+                                         QMessageBox.Yes | QMessageBox.No)
+
+        if respuesta == QMessageBox.Yes:
+            # Si el usuario confirma que está seguro
+            # Verificar si hay habitaciones asociadas a esta categoría
+            print(id_habitacion)
+            habitaciones_asociadas = self.modeloHabitacion.verificarhabitacionendetalle(id_habitacion)
+
+            if not habitaciones_asociadas:
+                # Si no hay habitaciones asociadas, eliminar la categoría
+                self.modeloHabitacion.eliminarHabitacion(id_habitacion)
+
+                # Si se elimina con éxito de la base de datos, eliminar la fila de la tabla
+                tabla.removeRow(row)
+                self.listarHabitacion(tabla)
+            else:
+                # Si hay habitaciones asociadas, mostrar un mensaje de error y no permitir la eliminación
+                QMessageBox.critical(None, "Error",
+                                     "No se puede eliminar esta habitacion por que hay registros que se perderian.")
+        else:
+            # Si el usuario cancela la acción, no hacer nada
+            return
+
 
     def edit_row(self, row):
         print(f"se edita el botn: {row}")

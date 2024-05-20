@@ -84,8 +84,8 @@ class RegistrarNivel:
 
     def eliminarNivel(self, id):
         with self.conn.cursor() as cursor:
-            sql = "DELETE FROM nivelhabitacion WHERE idNivelHabitacion = '" + str(id) + "'"
-            cursor.execute(sql)
+            sql = "DELETE FROM nivelhabitacion WHERE idNivelHabitacion = %s"
+            cursor.execute(sql, (id,))
             self.conn.commit()
 
     def updateNivel(self, nivel, nombre, id):
