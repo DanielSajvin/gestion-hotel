@@ -44,11 +44,14 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
         # ********************************* saber que usuario esta en el programa *******************************
-        self.usuario = self.ModeloUsuario.regresarUsuario(user)
+        self.usuario = self.ModeloUsuario.regresarUsuario("a")
+        # self.usuario = self.ModeloUsuario.regresarUsuario(user)
 
-        self.tipo_usuario = self.usuario[4]
+        self.tipo_usuario = self.usuario[3]
         self.id_usuario = self.usuario[0]
 
+
+        self.bloquearbotones_por_usuario()
         # Listar todas las tablas
         self.ModeloNivel.listarNivel(self.tablaNivel)
         self.ModeloHabitacion.listarHabitacion(self.tablaHabitacion)
@@ -403,5 +406,26 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         self.lnx_confirm_password_2.clear()
         self.lnx_password_3.clear()
         self.lnx_usuario_2.clear()
+
+    def bloquearbotones_por_usuario(self):
+        self.btn_caja.setVisible(False)
+        if self.tipo_usuario == "Recepcionista":
+            self.btn_configuracion.setVisible(False)
+            self.btn_registro.setVisible(False)
+            self.btn_hab(False)
+            self.btn_categoria(False)
+            self.btn_nivel(False)
+
+        elif self.tipo_usuario == "Cocinero ":
+            self.btn_habitacion.setVisible(False)
+            self.btn_salida.setVisible(False)
+            self.btn_configuracion(False)
+            self.btn_hab(False)
+            self.btn_categoria(False)
+            self.btn_nivel(False)
+            self.btn_usuario(False)
+            self.btn_cliente(False)
+            self.btn_registro.setVisible(False)
+
 
 
