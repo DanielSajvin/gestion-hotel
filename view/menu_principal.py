@@ -49,13 +49,12 @@ class Main_menuPrincipal(QMainWindow, Ui_MainWindow):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
         # ********************************* saber que usuario esta en el programa *******************************
-        self.usuario = self.ModeloUsuario.regresarUsuario("a")
-        # self.usuario = self.ModeloUsuario.regresarUsuario(user)
+        # self.usuario = self.ModeloUsuario.regresarUsuario("a")
+        self.usuario = self.ModeloUsuario.regresarUsuario(user)
 
         self.tipo_usuario = self.usuario[3]
         self.id_usuario = self.usuario[0]
-
-
+        print(self.tipo_usuario)
         self.bloquearbotones_por_usuario()
         # Listar todas las tablas
         self.ModeloNivel.listarNivel(self.tablaNivel)
@@ -442,10 +441,9 @@ QPushButton{
             hashed_password = bcrypt.hashpw(pw.encode('utf-8'), salt)
             if cargo == "Gerente":
                 self.ModeloUsuario.CrearUsuario(nombre, user, hashed_password, 1, self.tabla_usuario)
-            elif cargo == "Empleado":
+            elif cargo == "Recepcionista":
                 self.ModeloUsuario.CrearUsuario(nombre, user, hashed_password, 2, self.tabla_usuario)
             # Insertar la contraseña segura como una cadena de texto en la base de datos
-
 
         else:
             print("las contraseñas no coinciden")
@@ -458,23 +456,30 @@ QPushButton{
 
     def bloquearbotones_por_usuario(self):
         self.btn_caja.setVisible(False)
+
         if self.tipo_usuario == "Recepcionista":
             self.btn_configuracion.setVisible(False)
             self.btn_registro.setVisible(False)
-            self.btn_hab(False)
-            self.btn_categoria(False)
-            self.btn_nivel(False)
+            self.btn_cocina.setVisible(False)
+            self.btn_hab.setVisible(False)
+            self.btn_categoria.setVisible(False)
+            self.btn_nivel.setVisible(False)
+            self.btn_cliente.setVisible(False)
+            self.btn_usuario.setVisible(False)
 
-        elif self.tipo_usuario == "Cocinero ":
+        elif self.tipo_usuario == "Cocinero":
             self.btn_habitacion.setVisible(False)
             self.btn_salida.setVisible(False)
-            self.btn_configuracion(False)
-            self.btn_hab(False)
-            self.btn_categoria(False)
-            self.btn_nivel(False)
-            self.btn_usuario(False)
-            self.btn_cliente(False)
+            self.btn_configuracion.setVisible(False)
+            self.btn_hab.setVisible(False)
+            self.btn_categoria.setVisible(False)
+            self.btn_nivel.setVisible(False)
+            self.btn_usuario.setVisible(False)
+            self.btn_cliente.setVisible(False)
             self.btn_registro.setVisible(False)
+
+        else:
+            pass
 
 
 

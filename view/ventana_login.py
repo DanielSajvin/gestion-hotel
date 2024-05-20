@@ -40,29 +40,29 @@ class Main_login(QMainWindow):
         self.btn_cerrar.clicked.connect(self.cerrar)
 
     def abrir(self):
-        try:
-            self.user = self.lnx_user.text()
-            pw = self.lnx_password.text()
-            intento = str(pw)
-            # intento = input('Ingrese una contraseña: ')
-            intento = intento.encode()
+        # try:
+        self.user = self.lnx_user.text()
+        pw = self.lnx_password.text()
+        intento = str(pw)
+        # intento = input('Ingrese una contraseña: ')
+        intento = intento.encode()
 
 
 
-            cursor = self.conn.cursor()
-            cursor.execute("select Contrasenia from usuarios where Usuario='"+self.user+"'")
-            result = cursor.fetchone()
-            contrasenia = result[0]
+        cursor = self.conn.cursor()
+        cursor.execute("select Contrasenia from usuarios where Usuario='"+self.user+"'")
+        result = cursor.fetchone()
+        contrasenia = result[0]
 
-            if bcrypt.checkpw(pw.encode('utf-8'), contrasenia.encode('utf-8')):
-                ventana_principal = Main_menuPrincipal(self.user, Main_login())
-                ventana_principal.show()
-                self.hide()
-            else:
-                print("Contraseña incorrecta. Intente de nuevo.")
+        if bcrypt.checkpw(pw.encode('utf-8'), contrasenia.encode('utf-8')):
+            ventana_principal = Main_menuPrincipal(self.user, Main_login())
+            ventana_principal.show()
+            self.hide()
+        else:
+            print("Contraseña incorrecta. Intente de nuevo.")
 
-        except Exception as e:
-            QMessageBox.critical(self, 'Error', str(e))
+        # except Exception as e:
+        #    QMessageBox.critical(self, 'Error', str(e))
 
     #def changeForm(self):
     #    if self.btn_cambio.isChecked():
