@@ -2,6 +2,7 @@ from PyQt5.uic import loadUiType
 from PyQt5 import QtCore, QtWidgets
 from modelos.control_Salida import ModeloRegistro
 from modelos.control_huesped import ModeloHuesped
+from modelos.control_habitacion import ModeloHabitacion
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMainWindow, QPushButton, QVBoxLayout, QWidget, QDialog,QTableWidgetItem
 
 import datetime
@@ -11,12 +12,15 @@ Ui_CrearNivel, _ = loadUiType('view/CrearSalida.ui')
 
 
 class CrearSalida(QMainWindow, Ui_CrearNivel):
-    def __init__(self, tablah, tablafactura, num, *args, **kwargs):
+    def __init__(self, tablah, tablafactura, num, idusuario, tablahabitacio, *args, **kwargs):
         self.table = tablah
         self.tablefactura = tablafactura
         self.numero = num
         self.Modelo = ModeloRegistro()
         self.huesped = ModeloHuesped()
+        self.habitacion = ModeloHabitacion()
+        self.idusuario = idusuario
+        self.tablahabitacion = tablahabitacio
         super().__init__(*args, **kwargs)
 
         self.setupUi(self)
@@ -90,6 +94,20 @@ class CrearSalida(QMainWindow, Ui_CrearNivel):
 
 
     def guardarNiv(self):
+        datos_habitaciones = self.Modelo.datosporHabitacion(self.numero)
+
+
+
+        if datos_habitaciones:
+            habitacion_data = datos_habitaciones[0]  # Tomamos solo la primera fila de resultado
+
+            idhabitacion = self.Modelo.opteneridpornumero(habitacion_data[0])
+
+            if idhabitacion:
+                habitacion_dataid = idhabitacion[0]
+
+                id = habitacion_dataid[0]
+
         nombreh = self.lnl_Cliente.text()
         partes = nombreh.split(": ")
 
@@ -100,7 +118,7 @@ class CrearSalida(QMainWindow, Ui_CrearNivel):
         usuario_id = 1
         huesped_id = self.huesped.onteneridhuespedporNombre(nombre_cliente)
         print(huesped_id)
-        self.Modelo.CrearFactura(fecha_actual, 1, huesped_id)
+        self.Modelo.CrearFactura(fecha_actual, self.idusuario, huesped_id)
 
         self.Modelo.listarFactura(self.tablefactura)
         self.Modelo.updateFactura(self.tablefactura)
@@ -113,6 +131,9 @@ class CrearSalida(QMainWindow, Ui_CrearNivel):
         print(extrasId)
 
         self.Modelo.updateDetalleFactura(fecha_actual, extrasId, facturaId, idDetalle)
+        self.habitacion.updateEstadoHabitacion(1, id, self.tablahabitacion)
+
+        self.Modelo.updateFactura(self.tablefactura)
 
         self.close_event()
 

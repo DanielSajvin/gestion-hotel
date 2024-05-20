@@ -41,14 +41,15 @@ class RegistrarHospedaje:
         habitacion_data = cursor.fetchall()
         return habitacion_data
 
-
     def obteneridHuesped(self):
-        cursor = self.conn.cursor()
-        cursor.execute("SELECT MAX(id) FROM huesped")
+        with self.conn.cursor() as cursor:
+            cursor.execute("SELECT MAX(id) FROM huesped")
+            max_id = cursor.fetchone()[0]
 
-        count = cursor.fetchone()[0]
-        count = count + 1
-        return count
+            if max_id is None:
+                return 1
+            else:
+                return max_id + 1
 
     def obtenerCategoria(self):
         with self.conn.cursor() as cursor:

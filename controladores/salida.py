@@ -25,6 +25,15 @@ class Registro:
         habitacion_data = cursor.fetchall()
         return habitacion_data
 
+    def obtenerdetalleFacturas(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""SELECT d.idDetalle, e.idExtras, f.id,h.NoHabitacion, d.SubTotal, e.Precio, d.Total, d.fechaEntrada, d.fechaSalida from detallefactura d 
+inner join habitaciones h on d.habitaciones_id = h.id
+left join extras e on d.extras_idExtras = e.idExtras
+inner join factura f on d.factura_id = f.id""")
+        habitacion_data = cursor.fetchall()
+        return habitacion_data
+
     def obtenerdatosporHabitacion(self, habitacion):
         cursor = self.conn.cursor()
         cursor.execute("""SELECT h.NoHabitacion, c.Nombre, h.Detalle, e.Estado, c.Precio,
@@ -113,9 +122,16 @@ class Registro:
             self.conn.commit()
 
     def updateDetalleFactura(self, fechaS, extrasId, facturaId, idDetalle):
+        print(fechaS, extrasId, facturaId, idDetalle)
         with self.conn.cursor() as cursor:
             sql = """UPDATE detallefactura SET fechaSalida = %s, extras_idExtras = %s, factura_id=%s WHERE idDetalle = %s"""
             cursor.execute(sql, (fechaS, extrasId, facturaId, idDetalle))
+            self.conn.commit()
+
+    def updatedetalleFacturaRegistro(self, fechaS, facturaId, idDetalle):
+        with self.conn.cursor() as cursor:
+            sql = """UPDATE detallefactura SET fechaSalida = %s, factura_id=%s WHERE idDetalle = %s"""
+            cursor.execute(sql, (fechaS, facturaId, idDetalle))
             self.conn.commit()
 
 

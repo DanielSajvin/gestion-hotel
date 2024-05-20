@@ -11,8 +11,8 @@ from view.ventana_login import Main_login
 Ui_MainWindow, QMainWindow = loadUiType('view/interfaz.ui')
 
 app = QApplication(sys.argv)
-window = Main_menuPrincipal(QMainWindow, Ui_MainWindow)
-# window = Main_login()
+# window = Main_menuPrincipal(QMainWindow, Ui_MainWindow)
+window = Main_login()
 window.show()
 
 
