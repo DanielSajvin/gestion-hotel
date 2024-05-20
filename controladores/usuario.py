@@ -52,8 +52,13 @@ class Usuario():
 
     def regresarUsuario(self, usuario):
         with self.conn.cursor() as cursor:
-            sql = "SELECT * FROM usuarios WHERE Usuario = '"+str(usuario)+"'"
-            cursor.execute(sql)
+            sql = """
+            SELECT u.Id, u.Nombre, u.Usuario, t.TipoUsuariocol
+            FROM usuarios u
+            INNER JOIN tipousuario t ON u.TipoUsuario_idTipoUsuario = t.idTipoUsuario
+            WHERE u.Usuario = %s
+            """
+            cursor.execute(sql, (usuario,))
             result = cursor.fetchone()
             if result:
                 return result
