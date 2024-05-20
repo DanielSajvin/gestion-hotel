@@ -603,7 +603,7 @@ color: rgba(106,105,103,255);
                 <string notr="true">background-color: rgba(255,255,255,255);</string>
                </property>
                <property name="currentIndex">
-                <number>2</number>
+                <number>5</number>
                </property>
                <widget class="QWidget" name="pg_recepcion">
                 <widget class="QTabWidget" name="tab_recepcion">
@@ -1947,7 +1947,12 @@ QTableWidget::item {
                   </item>
                   <item>
                    <property name="text">
-                    <string>Empleado</string>
+                    <string>Recepcionista</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Cocinero</string>
                    </property>
                   </item>
                  </widget>
